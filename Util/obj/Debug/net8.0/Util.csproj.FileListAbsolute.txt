@@ -1,0 +1,16 @@
+E:\Projetos\GCA\Util\bin\Debug\net8.0\Util.deps.json
+E:\Projetos\GCA\Util\bin\Debug\net8.0\Util.dll
+E:\Projetos\GCA\Util\bin\Debug\net8.0\Util.pdb
+E:\Projetos\GCA\Util\bin\Debug\net8.0\ConstantManager.dll
+E:\Projetos\GCA\Util\bin\Debug\net8.0\ConstantManager.pdb
+E:\Projetos\GCA\Util\obj\Debug\net8.0\Util.csproj.AssemblyReference.cache
+E:\Projetos\GCA\Util\obj\Debug\net8.0\Util.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projetos\GCA\Util\obj\Debug\net8.0\Util.AssemblyInfoInputs.cache
+E:\Projetos\GCA\Util\obj\Debug\net8.0\Util.AssemblyInfo.cs
+E:\Projetos\GCA\Util\obj\Debug\net8.0\Util.csproj.CoreCompileInputs.cache
+E:\Projetos\GCA\Util\obj\Debug\net8.0\Util.sourcelink.json
+E:\Projetos\GCA\Util\obj\Debug\net8.0\Util.csproj.Up2Date
+E:\Projetos\GCA\Util\obj\Debug\net8.0\Util.dll
+E:\Projetos\GCA\Util\obj\Debug\net8.0\refint\Util.dll
+E:\Projetos\GCA\Util\obj\Debug\net8.0\Util.pdb
+E:\Projetos\GCA\Util\obj\Debug\net8.0\ref\Util.dll

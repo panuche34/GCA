@@ -25,117 +25,117 @@ namespace Application.Services
         }
 
         
-        public async Task<CompanyVM> CrudAsync(int id)
-        {
-            var model = await _ctx.Logs
-                .AsNoTracking()
-                .Where(w => w.Id == id)
-                .FirstOrDefaultAsync();
-            if (model == null)
-                return new LogVM();
+        //public async Task<CompanyVM> CrudAsync(int id)
+        //{
+        //    var model = await _ctx.Logs
+        //        .AsNoTracking()
+        //        .Where(w => w.Id == id)
+        //        .FirstOrDefaultAsync();
+        //    if (model == null)
+        //        return new LogVM();
 
-            var vm = new LogVM
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Cnpj = model.Cnpj,
-                Emails = model.Emails,
-                Remarks = model.Remarks,
-                CertificateNotAfter = model.CertificateNotAfter ?? DateTime.MinValue,
-                SerproClientId = model.SerproClientId ?? string.Empty,
-                SerproClientSecret = model.SerproClientSecret ?? string.Empty,
-            };
-            return vm;
-        }
+        //    var vm = new LogVM
+        //    {
+        //        Id = model.Id,
+        //        Name = model.Name,
+        //        Cnpj = model.Cnpj,
+        //        Emails = model.Emails,
+        //        Remarks = model.Remarks,
+        //        CertificateNotAfter = model.CertificateNotAfter ?? DateTime.MinValue,
+        //        SerproClientId = model.SerproClientId ?? string.Empty,
+        //        SerproClientSecret = model.SerproClientSecret ?? string.Empty,
+        //    };
+        //    return vm;
+        //}
 
-        public async Task CrudAsync(LogVM viewModel)
-        {
-            // Valida o certificado antes de salvar qualquer coisa            
+        //public async Task CrudAsync(LogVM viewModel)
+        //{
+        //    // Valida o certificado antes de salvar qualquer coisa            
 
-            var model = await _ctx.Logs
-                .Where(w => w.Id == (viewModel.Id.HasValue ? viewModel.Id.Value : 0))
-                .FirstOrDefaultAsync();
-            if (model == null)
-            {
-                model = new Log();
-                model.CreatedOnUtc = DateTime.Now;
-            }
-            model.Name = viewModel.Name;
-            model.Cnpj = viewModel.Cnpj;
-            model.Emails = viewModel.Emails;
-            model.Remarks = viewModel.Remarks;
-            model.IsActive = true;
-            model.IsDeleted = false;
-            model.SerproClientId = viewModel.SerproClientId;
-            model.SerproClientSecret = viewModel.SerproClientSecret;
-            if (!string.IsNullOrWhiteSpace(viewModel.Password))
-                model.CertificatePassword = viewModel.Password;
+        //    var model = await _ctx.Logs
+        //        .Where(w => w.Id == (viewModel.Id.HasValue ? viewModel.Id.Value : 0))
+        //        .FirstOrDefaultAsync();
+        //    if (model == null)
+        //    {
+        //        model = new Log();
+        //        model.CreatedOnUtc = DateTime.Now;
+        //    }
+        //    model.Name = viewModel.Name;
+        //    model.Cnpj = viewModel.Cnpj;
+        //    model.Emails = viewModel.Emails;
+        //    model.Remarks = viewModel.Remarks;
+        //    model.IsActive = true;
+        //    model.IsDeleted = false;
+        //    model.SerproClientId = viewModel.SerproClientId;
+        //    model.SerproClientSecret = viewModel.SerproClientSecret;
+        //    if (!string.IsNullOrWhiteSpace(viewModel.Password))
+        //        model.CertificatePassword = viewModel.Password;
 
-            if (certInfo is not null)
-            {
-                model.CertificateNotAfter = certInfo.NotAfter;
-            }
-            if (model.Id == 0)
-            {
-                await _ctx.AddAsync(model);
-            }
-            await _ctx.SaveChangesAsync();
+        //    if (certInfo is not null)
+        //    {
+        //        model.CertificateNotAfter = certInfo.NotAfter;
+        //    }
+        //    if (model.Id == 0)
+        //    {
+        //        await _ctx.AddAsync(model);
+        //    }
+        //    await _ctx.SaveChangesAsync();
 
-            if (viewModel.CertificateFile is not null && viewModel.CertificateFile.Length > 0)
-            {
-                try
-                {
-                    await _certificateService.SaveAsync(viewModel.CertificateFile,
-                        viewModel.Password, model.Id);
+        //    if (viewModel.CertificateFile is not null && viewModel.CertificateFile.Length > 0)
+        //    {
+        //        try
+        //        {
+        //            await _certificateService.SaveAsync(viewModel.CertificateFile,
+        //                viewModel.Password, model.Id);
 
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, $"Error saving certificate for company ID: {model.Id}");
-                    throw new CustomException($"Error saving certificate: {ex.Message}");
-                }
-            }
-        }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            _logger.LogError(ex, $"Error saving certificate for company ID: {model.Id}");
+        //            throw new CustomException($"Error saving certificate: {ex.Message}");
+        //        }
+        //    }
+        //}
 
-        public async Task DeleteAsync(int id)
-        {
-            var model = await _ctx.Companies
-                .AsNoTracking()
-                .Where(w => w.Id == id)
-                .FirstOrDefaultAsync();
-            if (model == null)
-                throw new CustomException(ErrorMessagesConstant.EntityIdNotFound);
+        //public async Task DeleteAsync(int id)
+        //{
+        //    var model = await _ctx.Companies
+        //        .AsNoTracking()
+        //        .Where(w => w.Id == id)
+        //        .FirstOrDefaultAsync();
+        //    if (model == null)
+        //        throw new CustomException(ErrorMessagesConstant.EntityIdNotFound);
 
-            model.IsActive = false;
-            await _ctx.SaveChangesAsync();
-        }
+        //    model.IsActive = false;
+        //    await _ctx.SaveChangesAsync();
+        //}
 
-        public async Task ReactiveAsync(int id)
-        {
-            var model = await _ctx.Companies
-                .AsNoTracking()
-                .Where(w => w.Id == id)
-                .FirstOrDefaultAsync();
-            if (model == null)
-                throw new CustomException(ErrorMessagesConstant.EntityIdNotFound);
+        //public async Task ReactiveAsync(int id)
+        //{
+        //    var model = await _ctx.Companies
+        //        .AsNoTracking()
+        //        .Where(w => w.Id == id)
+        //        .FirstOrDefaultAsync();
+        //    if (model == null)
+        //        throw new CustomException(ErrorMessagesConstant.EntityIdNotFound);
 
-            model.IsActive = true;
-            await _ctx.SaveChangesAsync();
-        }
+        //    model.IsActive = true;
+        //    await _ctx.SaveChangesAsync();
+        //}
 
-        public async Task<CertificateInfoVM> CertificateInfoAsync(int id)
-        {
-            var company = await _ctx.Companies
-                .Where(w => !w.IsDeleted && w.Id == id)
-                .AsNoTracking()
-                .FirstOrDefaultAsync();
+        //public async Task<CertificateInfoVM> CertificateInfoAsync(int id)
+        //{
+        //    var company = await _ctx.Companies
+        //        .Where(w => !w.IsDeleted && w.Id == id)
+        //        .AsNoTracking()
+        //        .FirstOrDefaultAsync();
 
-            if (company is null)
-                throw new CustomException(ErrorMessagesConstant.EntityIdNotFound);
+        //    if (company is null)
+        //        throw new CustomException(ErrorMessagesConstant.EntityIdNotFound);
 
-            var certInfo = await _certificateService
-                .ValidateAsync(id, company.CertificatePassword ?? string.Empty);
-            return certInfo;
-        }
+        //    var certInfo = await _certificateService
+        //        .ValidateAsync(id, company.CertificatePassword ?? string.Empty);
+        //    return certInfo;
+        //}
     }
 }

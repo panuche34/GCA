@@ -7,7 +7,7 @@ namespace Application.Mappers
     {
         public UserMapper()
         {
-            CreateMap<User, LoginVM>();
+            //CreateMap<User, LoginVM>();
         }
     }
 }

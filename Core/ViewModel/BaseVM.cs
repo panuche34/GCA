@@ -19,16 +19,16 @@ namespace Core.ViewModel
             }
         }
 
-        public static string SetButtonActive(string customButton, bool isActive, long Id)
-        {
-            if (!string.IsNullOrEmpty(customButton))
-                return customButton;
-            else if (!isActive)
-                return ButtonsVM.GetButtonsBy(Id, "reactive");
-            else 
-                return ButtonsVM.GetButtonsBy(Id, "edit", "delete");
+        //public static string SetButtonActive(string customButton, bool isActive, long Id)
+        //{
+        //    if (!string.IsNullOrEmpty(customButton))
+        //        return customButton;
+        //    else if (!isActive)
+        //        return ButtonsVM.GetButtonsBy(Id, "reactive");
+        //    else 
+        //        return ButtonsVM.GetButtonsBy(Id, "edit", "delete");
           
-        }
+        //}
 
         public static string GetDecimal(decimal value)
         {

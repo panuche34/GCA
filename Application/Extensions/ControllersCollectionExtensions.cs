@@ -12,13 +12,13 @@ namespace Application.Extensions
 
             services.AddHttpClient();
 
-            services.AddScoped<ICertificateService, CertificateService>();
+            //services.AddScoped<ICertificateService, CertificateService>();
             services.AddScoped<ILogService, LogService>();
-            services.AddScoped<ILoginService, LoginService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IReconciliationSerproService, ReconciliationSerproService>();
+            //services.AddScoped<ILoginService, LoginService>();
+            //services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IReconciliationSerproService, ReconciliationSerproService>();
             
-            services.AddScoped<ISerproService, SerproService>();
+            //services.AddScoped<ISerproService, SerproService>();
 
             return services;
         }

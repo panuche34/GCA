@@ -1,0 +1,12 @@
+E:\Projetos\GCA\ConstantManager\bin\Debug\net8.0\ConstantManager.deps.json
+E:\Projetos\GCA\ConstantManager\bin\Debug\net8.0\ConstantManager.dll
+E:\Projetos\GCA\ConstantManager\bin\Debug\net8.0\ConstantManager.pdb
+E:\Projetos\GCA\ConstantManager\obj\Debug\net8.0\ConstantManager.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projetos\GCA\ConstantManager\obj\Debug\net8.0\ConstantManager.AssemblyInfoInputs.cache
+E:\Projetos\GCA\ConstantManager\obj\Debug\net8.0\ConstantManager.AssemblyInfo.cs
+E:\Projetos\GCA\ConstantManager\obj\Debug\net8.0\ConstantManager.csproj.CoreCompileInputs.cache
+E:\Projetos\GCA\ConstantManager\obj\Debug\net8.0\ConstantManager.sourcelink.json
+E:\Projetos\GCA\ConstantManager\obj\Debug\net8.0\ConstantManager.dll
+E:\Projetos\GCA\ConstantManager\obj\Debug\net8.0\refint\ConstantManager.dll
+E:\Projetos\GCA\ConstantManager\obj\Debug\net8.0\ConstantManager.pdb
+E:\Projetos\GCA\ConstantManager\obj\Debug\net8.0\ref\ConstantManager.dll

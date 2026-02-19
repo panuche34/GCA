@@ -1,7 +1,5 @@
 ﻿using Application.Interface;
-using ConstantManager.SerproApi;
 using Core.Entity;
-using Core.SerproApi;
 using Infrastructure.Contexties;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
@@ -38,9 +36,7 @@ namespace Application.Services
             _pathBaseResult = configuration["PathBaseResult"] ?? string.Empty;
         }
 
-       
 
-    
         public async Task GetSheetAsync()
         {
             if (string.IsNullOrWhiteSpace(_pathBaseResult))
@@ -48,8 +44,7 @@ namespace Application.Services
             if (string.IsNullOrWhiteSpace(_pathBaseOrig))
                 throw new CustomException("path to source not config in appsettings.json");
 
-
-            //aqui a magina acontece
+            //aqui a magia acontece
 
            
         }
