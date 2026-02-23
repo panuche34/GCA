@@ -24,7 +24,7 @@ namespace Util.Extensions
         }
 
 
-        public async Task SendMail(string titulo, string body, string emailTo1, string emailTo2, string attach)
+        public async Task SendMail(string titulo, string body, string emailTo1, string emailTo2)
         {
             try
             {
@@ -62,10 +62,10 @@ namespace Util.Extensions
                 };
 
                 // Adicionar o anexo, se houver
-                if (!string.IsNullOrEmpty(attach) && File.Exists(attach))
-                {
-                    bodyBuilder.Attachments.Add(attach);
-                }
+                //if (!string.IsNullOrEmpty(attach) && File.Exists(attach))
+                //{
+                //    bodyBuilder.Attachments.Add(attach);
+                //}
 
                 // Configurar o corpo da mensagem
                 mail.Body = bodyBuilder.ToMessageBody();

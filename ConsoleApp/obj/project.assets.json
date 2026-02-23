@@ -2315,6 +2315,7 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "AutoMapper": "14.0.0",
+          "ClosedXML": "0.105.0",
           "ConstantManager": "1.0.0",
           "Core": "1.0.0",
           "Infrastructure": "1.0.0",

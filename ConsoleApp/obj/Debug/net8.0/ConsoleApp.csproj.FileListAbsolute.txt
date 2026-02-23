@@ -4,6 +4,7 @@ E:\Projetos\GCA\ConsoleApp\obj\Debug\net8.0\ConsoleApp.AssemblyInfoInputs.cache
 E:\Projetos\GCA\ConsoleApp\obj\Debug\net8.0\ConsoleApp.AssemblyInfo.cs
 E:\Projetos\GCA\ConsoleApp\obj\Debug\net8.0\ConsoleApp.csproj.CoreCompileInputs.cache
 E:\Projetos\GCA\ConsoleApp\obj\Debug\net8.0\ConsoleApp.sourcelink.json
+E:\Projetos\GCA\ConsoleApp\bin\Debug\net8.0\appsettings.json
 E:\Projetos\GCA\ConsoleApp\bin\Debug\net8.0\ConsoleApp.exe
 E:\Projetos\GCA\ConsoleApp\bin\Debug\net8.0\ConsoleApp.deps.json
 E:\Projetos\GCA\ConsoleApp\bin\Debug\net8.0\ConsoleApp.runtimeconfig.json
@@ -80,4 +81,3 @@ E:\Projetos\GCA\ConsoleApp\obj\Debug\net8.0\refint\ConsoleApp.dll
 E:\Projetos\GCA\ConsoleApp\obj\Debug\net8.0\ConsoleApp.pdb
 E:\Projetos\GCA\ConsoleApp\obj\Debug\net8.0\ConsoleApp.genruntimeconfig.cache
 E:\Projetos\GCA\ConsoleApp\obj\Debug\net8.0\ref\ConsoleApp.dll
-E:\Projetos\GCA\ConsoleApp\bin\Debug\net8.0\appsettings.json

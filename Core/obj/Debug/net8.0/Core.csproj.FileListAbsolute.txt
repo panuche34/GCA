@@ -1,9 +1,3 @@
-E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.csproj.AssemblyReference.cache
-E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.GeneratedMSBuildEditorConfig.editorconfig
-E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.AssemblyInfoInputs.cache
-E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.AssemblyInfo.cs
-E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.csproj.CoreCompileInputs.cache
-E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.sourcelink.json
 E:\Projetos\GCA\Core\bin\Debug\net8.0\Core.deps.json
 E:\Projetos\GCA\Core\bin\Debug\net8.0\Core.dll
 E:\Projetos\GCA\Core\bin\Debug\net8.0\Core.pdb
@@ -11,6 +5,12 @@ E:\Projetos\GCA\Core\bin\Debug\net8.0\ConstantManager.dll
 E:\Projetos\GCA\Core\bin\Debug\net8.0\Util.dll
 E:\Projetos\GCA\Core\bin\Debug\net8.0\ConstantManager.pdb
 E:\Projetos\GCA\Core\bin\Debug\net8.0\Util.pdb
+E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.csproj.AssemblyReference.cache
+E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.AssemblyInfoInputs.cache
+E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.AssemblyInfo.cs
+E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.csproj.CoreCompileInputs.cache
+E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.sourcelink.json
 E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.csproj.Up2Date
 E:\Projetos\GCA\Core\obj\Debug\net8.0\Core.dll
 E:\Projetos\GCA\Core\obj\Debug\net8.0\refint\Core.dll
