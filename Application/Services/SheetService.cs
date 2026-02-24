@@ -35,7 +35,8 @@ namespace Application.Services
         private readonly string _pathBaseOrig = configuration["PathBaseOrig"] ?? string.Empty;
         private readonly string _pathBaseResult = configuration["PathBaseResult"] ?? string.Empty;
         private readonly string _pathBaseLog = configuration["PathBaseLog"] ?? string.Empty;
-
+        private static HashSet<string> _arquivosFaltandoAnterior = new();
+        private static bool _emailJaEnviado = false;
         public async Task GetSheetAsync()
         {
             if (string.IsNullOrWhiteSpace(_pathBaseResult))
@@ -48,23 +49,18 @@ namespace Application.Services
             //aqui a magia acontece
             try
             {
-                var mail = true;
                 bool files = false;
 
                 while (files == false)
                 {
                     files = await Files_Verification(_pathBaseOrig);
                     if (files) {
-                        if (!mail)
-                        {
-                            SendMail("Arquivos faltante já encontrdos <br><br> Continuando os processos normalmente", "Arquivos encontrados");
-                            
-                        }
+
                         break;
-                        //envia email em caso negativo
+
                     }
-                    mail = false;
-                    Thread.Sleep(30000);
+
+                    Thread.Sleep(300000);
                     
                 }
 
@@ -82,25 +78,20 @@ namespace Application.Services
                     //gerar resultado
                     if (await Final_file(_pathBaseResult, excelfile))
                     {
-
+                        DailyLog("succeed","-");
                         return;
                     }
                     else
                     {
-
+                        DailyLog("failed", "Arquivo excel não gerado");
                         return;
                     }
                 }
-                else
-                {
-
-                }
-
-                //mover arquivos
 
             }
             catch (Exception ex)
             {
+                SendSupMail($"Erro na verificação: {ex.Message}", "Falha");
                 throw new CustomException("Arquivos não encontrados.");
             }
 
@@ -110,47 +101,73 @@ namespace Application.Services
         {
             try
             {
-                var mensagens = new List<string>();
-                var arquivos = new[] { "BON", "FAT", "DEV" };
-                var mail = false;
+                var arquivosEsperados = new[] { "BON", "FAT", "DEV" };
+                var arquivosFaltandoAtual = new HashSet<string>();
 
-                foreach (var tipo in arquivos)
+                foreach (var tipo in arquivosEsperados)
                 {
-                    var arquivo = Directory.GetFiles(path, $"*{tipo}*.txt").FirstOrDefault();
+                    var arquivo = Directory.GetFiles(path, $"*{tipo}*.txt")
+                                           .FirstOrDefault();
+
                     if (arquivo == null)
                     {
-                        mensagens.Add($" -- Arquivo {tipo} não encontrado. <br>");
-                        mail = true;
-                        DailyLog("failed", "Arquivo Faltante");
+                        arquivosFaltandoAtual.Add(tipo);
+                        DailyLog("failed", $"Arquivo {tipo} Faltante");
                     }
-
                 }
 
-                if (mensagens.Count == 0)
+                // ✅ Se agora está tudo OK
+                if (arquivosFaltandoAtual.Count == 0)
                 {
-                    return Task.FromResult(true);
-                }
-                else
-                {
-                    if (mail)
+                    if (_arquivosFaltandoAnterior.Count > 0)
                     {
-                        var agora = DateTime.Now;
-                        var proximaExecucao = agora.AddMinutes(5);
-                        var corpoMensagens = string.Join("<br>", mensagens);
+                        var encontrados = _arquivosFaltandoAnterior;
+
+                        var corpoMail = string.Join("<br>",
+                            encontrados.Select(a => $"-- Arquivo {a}.txt foi encontrado"));
 
                         var mensagemFinal =
-                            $"Robô procurou os arquivos às {agora:dd/MM/yyyy HH:mm} <br><br>" +
-                            corpoMensagens +
-                            $"<br> Irá rodar novamente às {proximaExecucao:dd/MM/yyyy HH:mm}"
-                        ;
+                            $"Arquivos anteriormente faltantes foram encontrados:<br><br>" +
+                            corpoMail +
+                            "<br><br>Continuando os processos normalmente.";
 
-                        SendMail(mensagemFinal, "Falta de arquivo(s)");
+                        SendMail(mensagemFinal, "Arquivos encontrados");
                     }
-                    return Task.FromResult(false);
+
+                    _arquivosFaltandoAnterior.Clear();
+                    _emailJaEnviado = false;
+
+                    return Task.FromResult(true);
                 }
+
+                // ❌ Existem arquivos faltando
+                if (!_emailJaEnviado)
+                {
+                    var agora = DateTime.Now;
+                    var proximaExecucao = agora.AddMinutes(5);
+
+                    var corpoMail = string.Join("<br>",
+                        arquivosFaltandoAtual.Select(a => $"-- Arquivo {a}.txt não encontrado"));
+
+                    var mensagemFinal =
+                        $"Robô procurou os arquivos às {agora:dd/MM/yyyy HH:mm}<br><br>" +
+                        corpoMail +
+                        $"<br><br>Irá rodar novamente às {proximaExecucao:dd/MM/yyyy HH:mm}";
+
+                    SendMail(mensagemFinal, "Falta de arquivo(s)");
+
+                    _emailJaEnviado = true;
+                }
+
+                // 🔁 Atualiza controle
+                _arquivosFaltandoAnterior = arquivosFaltandoAtual;
+
+                return Task.FromResult(false);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                DailyLog("failed", $"Erro na verificação: {ex.Message}");
+                SendSupMail($"Erro na verificação: {ex.Message}", "Falha");
                 return Task.FromResult(false);
             }
         }
@@ -211,7 +228,9 @@ namespace Application.Services
 
                 Quantidade = valores[10] == "01KR"
                     ? ParseDecimal(valores[12], culture) * 5
-                    : ParseDecimal(valores[12], culture),
+                    : valores[10] == "01BR"
+                        ? ParseDecimal(valores[12], culture) / 5
+                        : ParseDecimal(valores[12], culture),
 
                 ValorItem = ParseDecimal(valores[13], culture),
                 ValorTotal = ParseDecimal(valores[14], culture),
@@ -287,7 +306,8 @@ namespace Application.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao gerar Excel: {ex.Message}");
+                DailyLog("failed", "Erro ao criar arquivo Excel");
+                SendSupMail($"Erro na verificação: {ex.Message}", "Falha");
                 return false;
             }
         }
@@ -311,9 +331,26 @@ namespace Application.Services
             }
             catch
             {
-                var log = "Não conseguimos processar o envio de e-mail.";
+                DailyLog("failed", "E-mail não enviado");
+                
             }
         
+        }
+
+        public void SendSupMail(string mensagem, string sub)
+        {
+            var vo = new EmailVO()
+            {
+                To = "panuche@gmail.com",
+                Subject = $"Robô CGA - {sub}",
+                BodyMessage = mensagem
+
+            };
+                var email = new Email();
+
+
+                email.SendMail(vo.Subject, vo.BodyMessage, vo.To, "lucasrigou@uol.com.br");
+
         }
 
         public void ClearFolder(string origem,string destino)
@@ -328,45 +365,56 @@ namespace Application.Services
                     File.Move(arquivo, destinoCompleto);
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex) {
+                DailyLog("failed", "Erro ao mover arquivos");
+                SendSupMail($"Erro na verificação: {ex.Message}", "Falha");
+            }
             
         }
 
         public void DailyLog(string status, string motivo)
         {
-            Directory.CreateDirectory(_pathBaseLog);
-
-            var logPath = Path.Combine(_pathBaseLog, $"{DateTime.Now:yyyyMMdd}.json");
-
-            var log = new LogVM
+            try
             {
-                Date = DateTime.Now.ToString("yyyy/MM/dd"),
-                hour = DateTime.Now.ToString("HH:mm"),
-                Status = status,
-                DetailsFailed = motivo,
-            };
+                Directory.CreateDirectory(_pathBaseLog);
 
-            List<LogVM> list;
+                var logPath = Path.Combine(_pathBaseLog, $"{DateTime.Now:yyyyMMdd}.json");
 
-            if (File.Exists(logPath))
-            {
-                var jsonExistente = File.ReadAllText(logPath);
-                list = JsonSerializer.Deserialize<List<LogVM>>(jsonExistente)
-                       ?? new List<LogVM>();
+                var log = new LogVM
+                {
+                    Date = DateTime.Now.ToString("yyyy/MM/dd"),
+                    Hour = DateTime.Now.ToString("HH:mm"),
+                    Status = status,
+                    DetailsFailed = motivo,
+                };
+
+                List<LogVM> list;
+
+                if (File.Exists(logPath))
+                {
+                    var jsonExistente = File.ReadAllText(logPath);
+                    list = JsonSerializer.Deserialize<List<LogVM>>(jsonExistente)
+                           ?? new List<LogVM>();
+                }
+                else
+                {
+                    list = new List<LogVM>();
+                }
+
+                list.Add(log);
+
+                var jsonAtualizado = JsonSerializer.Serialize(list, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+
+                File.WriteAllText(logPath, jsonAtualizado);
             }
-            else
+            catch (Exception ex)
             {
-                list = new List<LogVM>();
+
+                SendSupMail($"Erro na verificação: {ex.Message}", "Falha");
             }
-
-            list.Add(log);
-
-            var jsonAtualizado = JsonSerializer.Serialize(list, new JsonSerializerOptions
-            {
-                WriteIndented = true
-            });
-
-            File.WriteAllText(logPath, jsonAtualizado);
         }
 
         #region
